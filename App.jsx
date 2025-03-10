@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Main from "./components/Main";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
+import Profile from "./components/Profile";
 
 const AppLayout = () => {
   return (
@@ -28,6 +29,10 @@ const appRouter = createBrowserRouter([
       {
         path: "feed",
         element: <Main />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
     ],
   },

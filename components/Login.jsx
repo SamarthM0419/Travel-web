@@ -4,6 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
@@ -11,9 +12,15 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSignIn = async () => {
+    if (password !== confirmPassword) {
+      setError("Passwords do not match!");
+      return;
+    }
     try {
       const res = await axios.post(
         BASE_URL + "/signUp",
@@ -22,6 +29,7 @@ const Login = () => {
       );
       console.log(res?.data?.data);
       dispatch(addUser(res?.data.data));
+      return navigate("/profile");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
     }
@@ -41,6 +49,7 @@ const Login = () => {
       );
       console.log(res.data);
       dispatch(addUser(res.data));
+      return navigate("/feed");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
     }
@@ -124,6 +133,9 @@ const Login = () => {
               >
                 {isLoginForm ? "Login" : "SignUp"}
               </button>
+            </div>
+            <div>
+              <p className="text-red-500 font-bold text-center">{error}</p>
             </div>
             <p
               className="m-auto cursor-pointer py-2 text-black hover:text-blue-900"
