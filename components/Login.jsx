@@ -7,8 +7,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
+  const [emailId, setEmailId] = useState("samarth@gmail.com");
+  const [password, setPassword] = useState("Samarth@123");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -47,12 +47,19 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(res.data);
-      dispatch(addUser(res.data));
+      console.log(res.data.data);
+      dispatch(addUser(res?.data?.data));
       return navigate("/feed");
     } catch (err) {
-      setError(err?.response?.data || "Something went wrong");
+      setError(err?.response?.data);
     }
+  };
+
+  const resetForm = () => {
+    setEmailId("");
+    setConfirmPassword("");
+    setFirstName("");
+    setPassword("");
   };
 
   return (
@@ -139,7 +146,10 @@ const Login = () => {
             </div>
             <p
               className="m-auto cursor-pointer py-2 text-black hover:text-blue-900"
-              onClick={() => setIsLoginForm((value) => !value)}
+              onClick={() => {
+                setIsLoginForm((value) => !value);
+                resetForm();
+              }}
             >
               {isLoginForm
                 ? "New User? Signup Here"
