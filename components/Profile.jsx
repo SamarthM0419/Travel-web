@@ -3,10 +3,11 @@ import UserCard from "./UserCard";
 import { BASE_URL, DEFAULT_PROFILE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import axios from "axios";
 
 const Profile = ({ user }) => {
   const [firstName, setFirstName] = useState(user?.firstName);
-  const [lastName, setLastName] = useState(user?.lastName);
+  const [lastName, setLastName] = useState(user?.lastName || "");
   const [age, setAge] = useState(user?.age || "");
   const [gender, setGender] = useState(user?.gender || "");
   const [profilePicture, setProfilePicture] = useState(
@@ -29,20 +30,21 @@ const Profile = ({ user }) => {
           age,
           gender,
           profilePicture,
-          about,
           city,
+          about,
         },
         {
           withCredentials: true,
         }
       );
+      console.log(res?.data?.data);
       dispatch(addUser(res?.data?.data));
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
       }, 3000);
     } catch (err) {
-      setError(err?.response?.data?.message || "Failed to update profile");
+      setError(err || "Failed to update profile");
     }
   };
 
@@ -77,7 +79,7 @@ const Profile = ({ user }) => {
             <fieldset className="fieldset">
               <legend className="fieldset-legend">Age:</legend>
               <input
-                type="text"
+                type="number"
                 className="input"
                 placeholder="Age"
                 value={age}
@@ -140,11 +142,11 @@ const Profile = ({ user }) => {
           user={{
             firstName,
             lastName,
-            profilePicture,
             age,
             gender,
-            about,
             city,
+            about,
+            profilePicture,
           }}
         />
       </div>

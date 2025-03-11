@@ -7,8 +7,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("samarth@gmail.com");
-  const [password, setPassword] = useState("Samarth@123");
+  const [emailId, setEmailId] = useState("virat@gmail.com");
+  const [password, setPassword] = useState("Virat@123");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -47,7 +47,7 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(res.data.data);
+      
       dispatch(addUser(res?.data?.data));
       return navigate("/feed");
     } catch (err) {

@@ -18,9 +18,7 @@ const Header = () => {
         {},
         { withCredentials: true }
       );
-      console.log(res.status);
       dispatch(removeUser());
-      console.log(user);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -61,9 +59,7 @@ const Header = () => {
                   Profile
                 </Link>
               </li>
-              <li>
-                <a>Settings</a>
-              </li>
+
               <li>
                 <a onClick={handleLogout}>Logout</a>
               </li>
